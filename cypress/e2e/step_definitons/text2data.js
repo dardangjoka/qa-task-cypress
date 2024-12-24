@@ -54,10 +54,3 @@ Then('the inference quality should be {string}', (quality) => {
   });
 });
 
-// When("I input text <input>", function (input) {
-//   cy.get('#textArea').clear().type(input);
-// });
-
-// Then("I should see an error message <errorMessage>", function (error){
-//   cy.get('.alert-danger').should('contain.text', error);
-// });
