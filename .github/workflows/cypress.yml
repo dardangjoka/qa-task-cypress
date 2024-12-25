@@ -47,9 +47,5 @@ jobs:
             echo "✅ All tests passed!"
           else
             echo "❌ Some tests failed. Check the artifacts for details."
+          fi
         continue-on-error: false
-
-strategy:
-  matrix:
-    node: [16, 18]
-    browser: [chrome, firefox]
