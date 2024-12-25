@@ -14,6 +14,7 @@ let demo = function() {
         },
 
         verifyAnalysis: (document, magnitudeMin, magnitudeMax, category, categoryScore) => {
+            
             cy.get('#divResults').should('be.visible');
             cy.get('#divResults').within(() => {
                 cy.contains('This document is:').should('be.visible');
