@@ -7,45 +7,49 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18' # Use the Node.js version required by your project
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Step 4: Run Cypress tests
       - name: Run Cypress tests
-        run: npx cypress run
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npx cypress run --browser chrome --headless
 
-      - name: Upload Cypress videos
-        if: always()
-        uses: actions/upload-artifact@v2
+      # Step 5: Upload test results (optional)
+      - name: Archive Cypress videos and screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
         with:
-          name: cypress-videos
-          path: cypress/videos
+          name: cypress-artifacts
+          path: |
+            cypress/videos
+            cypress/screenshots
 
-      - name: Upload Cypress screenshots
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+      # Step 6: Provide test summary
+      - name: Test Summary
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ All tests passed!"
+          else
+            echo "❌ Some tests failed. Check the artifacts for details."
+        continue-on-error: false
 
-      - name: Upload Cypress test results
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-results
-          path: cypress/reports
+strategy:
+  matrix:
+    node: [16, 18]
+    browser: [chrome, firefox]
