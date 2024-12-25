@@ -1,0 +1,21 @@
+# Node modules
+node_modules
+
+# Cypress configuration and output
+cypress/screenshots
+cypress/videos
+cypress/reports
+
+# Cypress environment files
+cypress.env.json
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
